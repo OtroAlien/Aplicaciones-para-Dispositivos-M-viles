@@ -1,46 +1,62 @@
-<template class="containeri">
+<template>
   <div class="form-container">
-    <h1>Gestor Financiero</h1>
-    <form @submit.prevent="addTransaction">
-      <div class="form-group">
-        <label for="descripcion">Descripción:</label>
-        <input v-model="newTransaction.descripcion" type="text" id="descripcion" required>
-      </div>
-      <div class="form-group">
-        <label for="monto">Cantidad (recuerda ingresar el signo correspondiente):</label>
-        <input v-model.number="newTransaction.monto" type="number" id="monto" required>
-      </div>
-      <div class="form-group">
-        <label for="categoria">Categoría:</label>
-        <select v-model="newTransaction.categoria" id="categoria" required>
-          <option value="" disabled>Selecciona una categoría</option>
-          <option v-for="categoria in TransaccionCategoria" :key="categoria">{{ categoria }}</option>
-        </select>
-      </div>
-      <div class="form-group">
-      <label for="fecha">Fecha:</label>
-      <datepicker v-model="newTransaction.fecha" :format="customFormat"></datepicker>
-    </div>
+    <div class="row">
+      <div class="col">
+        <div class="glass-card form-section">
+          <h2 class="section-title">Nueva Transacción</h2>
+          <form @submit.prevent="addTransaction">
+            <div class="form-group">
+              <label for="descripcion">Descripción</label>
+              <input v-model="newTransaction.descripcion" type="text" id="descripcion" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="monto">Cantidad (con signo)</label>
+              <input v-model.number="newTransaction.monto" type="number" id="monto" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="categoria">Categoría</label>
+              <select v-model="newTransaction.categoria" id="categoria" class="form-control" required>
+                <option value="" disabled>Selecciona una categoría</option>
+                <option v-for="categoria in TransaccionCategoria" :key="categoria">{{ categoria }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="fecha">Fecha</label>
+              <datepicker v-model="newTransaction.fecha" :format="customFormat" input-class="form-control"></datepicker>
+            </div>
 
-      <div class="form-group">
-        <button type="submit">{{ editarIndex === -1 ? 'Agregar' : 'Guardar' }}</button>
-        <button type="button" @click="cancelEdit" v-if="editarIndex !== -1" class="cancel">Cancelar</button>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">{{ editarIndex === -1 ? 'Agregar' : 'Guardar' }}</button>
+              <button type="button" @click="cancelEdit" v-if="editarIndex !== -1" class="btn-secondary">Cancelar</button>
+            </div>
+          </form>
+        </div>
       </div>
-    </form>
-
-    <div>
-      <h2>Transacciones</h2>
-      <ul>
-        <li v-for="(transaction, index) in transactions" :key="index">
-          <span :class="transaction.tipo === 'expense' ? 'expense' : 'income'">{{ transaction.tipo === 'expense' ? '-' : '+' }}{{ transaction.monto }}</span>
-          {{ transaction.descripcion }} ({{ new Date(transaction.fecha).toLocaleDateString() }})
-          <button @click="editTransaction(index)">Editar</button>
-          <button @click="deleteTransaction(index)">Eliminar</button>
-        </li>
-      </ul>
-      <div class="total">
-        <span>Total:</span>
-        <span :class="total >= 0 ? 'income' : 'expense'">{{ total }}</span>
+      
+      <div class="col">
+        <div class="glass-card transactions-section">
+          <h2 class="section-title">Transacciones</h2>
+          <div class="transaction-list">
+            <div v-for="(transaction, index) in transactions" :key="index" class="transaction-item glass-card">
+              <div class="transaction-amount" :class="transaction.tipo === 'expense' ? 'expense' : 'income'">
+                {{ transaction.tipo === 'expense' ? '-' : '+' }}{{ transaction.monto }}
+              </div>
+              <div class="transaction-details">
+                <div class="transaction-description">{{ transaction.descripcion }}</div>
+                <div class="transaction-date">{{ new Date(transaction.fecha).toLocaleDateString() }}</div>
+                <div class="transaction-category">{{ transaction.categoria }}</div>
+              </div>
+              <div class="transaction-actions">
+                <button @click="editTransaction(index)" class="btn-icon edit">✏️</button>
+                <button @click="deleteTransaction(index)" class="btn-icon delete">🗑️</button>
+              </div>
+            </div>
+          </div>
+          <div class="total-section glass-card">
+            <span>Balance Total:</span>
+            <span :class="total >= 0 ? 'income' : 'expense'">{{ total }}</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -100,7 +116,7 @@ export default {
         this.saveTransactionsToLocalStorage();
       } 
       else {
-        alert('Debes ingresar una fecha (no me funciona el require)');
+        alert('Debes ingresar una fecha');
       }
     },
     editTransaction(index) {
@@ -130,5 +146,103 @@ export default {
 </script>
 
 <style scoped>
+.form-section, .transactions-section {
+  height: 100%;
+}
 
+.section-title {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.transaction-list {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.transaction-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 15px;
+  text-align: left;
+}
+
+.transaction-amount {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-right: 15px;
+  min-width: 80px;
+}
+
+.income {
+  color: #4cd137;
+}
+
+.expense {
+  color: #e84118;
+}
+
+.transaction-details {
+  flex: 1;
+}
+
+.transaction-description {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.transaction-date, .transaction-category {
+  font-size: 0.85rem;
+  color: #7f8c8d;
+}
+
+.transaction-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: transform 0.2s ease;
+}
+
+.btn-icon:hover {
+  transform: scale(1.2);
+}
+
+.total-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
 </style>

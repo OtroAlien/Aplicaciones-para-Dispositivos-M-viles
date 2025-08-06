@@ -1,32 +1,26 @@
 <template>
-    <div class="containeri">
+  <div class="container">
+    <div class="glass-card">
+      <h1 class="card-title">Gestión de Transacciones</h1>
       <IngresarComponent />
     </div>
-  </template>
+  </div>
+</template>
 
-  <script>
-  import IngresarComponent from "@/components/IngresarComponent.vue";
+<script>
+import IngresarComponent from "@/components/IngresarComponent.vue";
 
-  export default {
-    name: 'IngresoComponent',
-    components: {
-      IngresarComponent,
-    },
-  };
-  </script>
-  <style scoped>
-.containeri {
-margin: 10px auto;
-background-color: #d4d4d4;
-padding: 15px;
-width: 70%;
-border: solid 3px #0e293b;
-border-radius: 15px;
-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.75);
+export default {
+  name: 'IngresoComponent',
+  components: {
+    IngresarComponent,
+  },
+};
+</script>
+
+<style scoped>
+.card-title {
+  margin-bottom: 30px;
+  font-size: 2rem;
 }
-
-label{
-    margin: 10px;
-}
-
 </style>

@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <div class="banner">
-      <img src="@/assets/banner.jpg" alt="Banner Image" />
+  <div class="container">
+    <div class="hero-section glass-card">
+      <h1 class="animate__animated animate__fadeIn">{{ title }}</h1>
+      <p class="subtitle animate__animated animate__fadeIn animate__delay-1s">Gestiona tus finanzas de manera inteligente</p>
     </div>
-    <div class="container">
-      <h1 class="animate__animated animate__bounce">{{ title }}</h1>
+    <div class="glass-card content-card">
       <HomeComponent />
     </div>
   </div>
@@ -28,38 +28,28 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  margin: 10px auto;
-  background-color: #d4d4d4;
-  padding: 15px;
-  width: 70%;
-  border: solid 3px #0e293b;
-  border-radius: 15px;
-  box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.75);
-}
-
-.banner {
+.hero-section {
   text-align: center;
-  margin: auto;
+  margin-bottom: 30px;
+  padding: 60px 20px;
+  background-image: linear-gradient(135deg, rgba(253, 121, 168, 0.2) 0%, rgba(108, 92, 231, 0.2) 100%);
 }
 
-.banner img {
-  height: 400px;
-  width: fit-content;
-  margin-top: 20px;
+.hero-section h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
   margin-bottom: 15px;
-  border: solid 3px #0e293b;
-  border-radius: 15px;
-  box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.75);
+  color: var(--primary-color);
 }
 
-h1 {
-  font-size: 30pt;
-  margin-bottom: 10px;
+.subtitle {
+  font-size: 1.2rem;
+  color: var(--text-color);
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-p {
-  font-size: 16px;
-  color: #555;
+.content-card {
+  margin-bottom: 30px;
 }
 </style>
