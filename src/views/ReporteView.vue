@@ -19,12 +19,14 @@ export default {
 <style scoped>
 .containerr {
   margin: 10px auto;
-  background-color: #d4d4d4;
   padding: 15px;
   width: 70%;
-  border: solid 3px #0e293b;
-  border-radius: 15px;
-  box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.75);
+  background: rgba(255, 255, 255, 0.25) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border-radius: var(--glass-radius);
 }
 
 h2 {
